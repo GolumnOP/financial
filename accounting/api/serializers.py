@@ -8,13 +8,13 @@ from accounting.models import (
     BalanceSheetItem,
 )
 
-class BalanceSheetItemSerializer(serializers.Serializer):
+class BalanceSheetItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = BalanceSheetItem
         fields = ["id", "name"]
 
 
-class BalanceGroupSerializer(serializers.Serializer):
+class BalanceGroupSerializer(serializers.ModelSerializer):
     balance_sheet_item = BalanceSheetItemSerializer(read_only=True)
     balance_sheet_item_id = serializers.PrimaryKeyRelatedField(
         queryset=BalanceSheetItem.objects.all(),
@@ -24,10 +24,10 @@ class BalanceGroupSerializer(serializers.Serializer):
 
     class Meta:
         model = BalanceGroup
-        fields = ["id", "name", "balance_sheet", "balance_sheet_id"]
+        fields = ["id", "name", "balance_sheet_item", "balance_sheet_item_id"]
 
 
-class AccountSerializer(serializers.Serializer):
+class AccountSerializer(serializers.ModelSerializer):
     balance_group = BalanceGroupSerializer(read_only=True)
     balance_group_id = serializers.PrimaryKeyRelatedField(
         queryset=BalanceGroup.objects.all(), write_only=True, source="balance_group"

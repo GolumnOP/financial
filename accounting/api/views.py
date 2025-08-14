@@ -12,16 +12,31 @@ from accounting.models import BalanceSheetItem, BalanceGroup, Account
 
 
 class BalanceSheetItemView(viewsets.ModelViewSet):
+    """
+    Статьи баланса:
+    - список / одна статья
+    - get, post, put, patch, delete
+    """
     serializer_class = BalanceSheetItemSerializer
     queryset = BalanceSheetItem.objects.all()
 
 
 class BalanceGroupView(viewsets.ModelViewSet):
+    """
+    Балансовые группы:
+    - список / одна группа
+    - get, post, put, patch, delete
+    """
     serializer_class = BalanceGroupSerializer
     queryset = BalanceGroup.objects.all()
 
 
 class AccountView(viewsets.ModelViewSet):
+    """
+        Счета:
+        - список / один счёт
+        - get, post, put, patch, delete
+    """
     serializer_class = AccountSerializer
     queryset = Account.objects.all()
 
