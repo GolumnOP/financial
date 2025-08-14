@@ -1,0 +1,186 @@
+[
+    {
+        "model": "accounting.balancesheetitem",
+        "pk": 1,
+        "fields": {
+            "name": "Активы"
+        }
+    },
+    {
+        "model": "accounting.balancesheetitem",
+        "pk": 2,
+        "fields": {
+            "name": "Обязательства"
+        }
+    },
+    {
+        "model": "accounting.balancegroup",
+        "pk": 1,
+        "fields": {
+            "name": "Денежные средства",
+            "balance_sheet": 1
+        }
+    },
+    {
+        "model": "accounting.balancegroup",
+        "pk": 2,
+        "fields": {
+            "name": "Кредиты",
+            "balance_sheet": 2
+        }
+    },
+    {
+        "model": "accounting.balancegroup",
+        "pk": 3,
+        "fields": {
+            "name": "Расчёты",
+            "balance_sheet": 1
+        }
+    },
+    {
+        "model": "accounting.account",
+        "pk": 1,
+        "fields": {
+            "number": "1234567890",
+            "name": "Касса",
+            "type": "active",
+            "balance_group": 1,
+            "balance": "10000.00"
+        }
+    },
+    {
+        "model": "accounting.account",
+        "pk": 2,
+        "fields": {
+            "number": "0987654321",
+            "name": "Краткосрочные кредиты",
+            "type": "passive",
+            "balance_group": 2,
+            "balance": "5000.00"
+        }
+    },
+    {
+        "model": "accounting.account",
+        "pk": 3,
+        "fields": {
+            "number": "1122334455",
+            "name": "Расчёты с клиентами",
+            "type": "active-passive",
+            "balance_group": 3,
+            "balance": "2000.00"
+        }
+    },
+    {
+        "model": "accounting.account",
+        "pk": 4,
+        "fields": {
+            "number": "5566778899",
+            "name": "Банковский счёт",
+            "type": "active",
+            "balance_group": 1,
+            "balance": "15000.00"
+        }
+    },
+    {
+        "model": "accounting.account",
+        "pk": 5,
+        "fields": {
+            "number": "6677889900",
+            "name": "Расчёты с поставщиками",
+            "type": "active-passive",
+            "balance_group": 3,
+            "balance": "-3000.00"
+        }
+    },
+    {
+        "model": "accounting.transaction",
+        "pk": 1,
+        "fields": {
+            "debit_account": 1,
+            "credit_account": 4,
+            "created_at": "2025-08-14T14:00:00+06:00",
+            "description": "Перевод с банковского счёта в кассу",
+            "amount": "5000.00",
+            "is_voided": false,
+            "reversed_transaction": null
+        }
+    },
+    {
+        "model": "accounting.transaction",
+        "pk": 2,
+        "fields": {
+            "debit_account": 2,
+            "credit_account": 1,
+            "created_at": "2025-08-14T14:15:00+06:00",
+            "description": "Погашение кредита из кассы",
+            "amount": "2000.00",
+            "is_voided": false,
+            "reversed_transaction": null
+        }
+    },
+    {
+        "model": "accounting.transaction",
+        "pk": 3,
+        "fields": {
+            "debit_account": 1,
+            "credit_account": 2,
+            "created_at": "2025-08-14T14:30:00+06:00",
+            "description": "Получение кредита в кассу",
+            "amount": "3000.00",
+            "is_voided": false,
+            "reversed_transaction": null
+        }
+    },
+    {
+        "model": "accounting.transaction",
+        "pk": 4,
+        "fields": {
+            "debit_account": 2,
+            "credit_account": 4,
+            "created_at": "2025-08-14T14:45:00+06:00",
+            "description": "Погашение кредита с банковского счёта",
+            "amount": "1000.00",
+            "is_voided": false,
+            "reversed_transaction": null
+        }
+    },
+    {
+        "model": "accounting.transaction",
+        "pk": 5,
+        "fields": {
+            "debit_account": 3,
+            "credit_account": 1,
+            "created_at": "2025-08-14T15:00:00+06:00",
+            "description": "Оплата от клиента в кассу",
+            "amount": "1500.00",
+            "is_voided": false,
+            "reversed_transaction": null
+        }
+    },
+    {
+        "model": "accounting.transaction",
+        "pk": 6,
+        "fields": {
+            "debit_account": 5,
+            "credit_account": 1,
+            "created_at": "2025-08-14T15:15:00+06:00",
+            "description": "Оплата поставщику из кассы",
+            "amount": "2000.00",
+            "is_voided": false,
+            "reversed_transaction": null
+        }
+    },
+    {
+        "model": "accounting.transaction",
+        "pk": 7,
+        "fields": {
+            "debit_account": 1,
+            "credit_account": 3,
+            "created_at": "2025-08-14T15:30:00+06:00",
+            "description": "Сторно транзакции #5",
+            "amount": "1500.00",
+            "is_voided": false,
+            "reversed_transaction": 5
+        }
+    }
+]

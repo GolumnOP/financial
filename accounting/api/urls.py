@@ -6,6 +6,8 @@ from .views import (
     BalanceGroupView,
     TransactionView,
     AccountsListView,
+    TransactionCreateView,
+    TransactionHistoryView,
 )
 
 router = DefaultRouter()
@@ -16,5 +18,15 @@ router.register(r"transactions", TransactionView)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("accounts-list/", AccountsListView.as_view(), name="account_list"),
+    path("accounts-list/", AccountsListView.as_view(), name="accounts_list"),
+    path(
+        "transactions-create/",
+        TransactionCreateView.as_view(),
+        name="transactions-create",
+    ),
+    path(
+        "transactions-history/",
+        TransactionHistoryView.as_view(),
+        name="transactions-history",
+    ),
 ]

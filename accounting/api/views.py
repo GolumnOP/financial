@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from rest_framework import viewsets
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
@@ -58,12 +59,6 @@ class TransactionView(viewsets.ModelViewSet):
     # TODO: add voided transaction post method
 
 
-# 🧾 Интерфейс (ниже описаны страницы)
-# •	Список счетов: отображение всех счетов с текущими балансами
-# •	Создание транзакции: форма с выбором счетов и суммой
-# •	История транзакций: таблица с датой, описанием, суммой, дебетом и кредитом
-
-
 class AccountsListView(APIView):
     renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
     template_name = "accounts_list.html"
@@ -76,3 +71,31 @@ class AccountsListView(APIView):
             return Response({"accounts": accounts})
         serializer = AccountSerializer(accounts, many=True)
         return Response(serializer.data)
+
+
+class TransactionCreateView(APIView):
+    renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
+    template_name = "transaction_creating.html"
+    serializer_class = TransactionSerializer
+
+    def get(self, request):
+        accounts = Account.objects.all()
+        return Response({"accounts": accounts})
+
+    def post(self, request):
+        serializer = TransactionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return redirect("transactions-create")
+        accounts = Account.objects.all()
+        print(serializer.errors)
+        return Response({"accounts": accounts, "errors": serializer.errors})
+
+
+class TransactionHistoryView(APIView):
+    renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
+    template_name = "transaction_history.html"
+
+    def get(self, request):
+        transactions = Transaction.objects.all()
+        return Response({"transactions": transactions})
