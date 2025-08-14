@@ -7,8 +7,9 @@ from accounting.api.serializers import (
     BalanceSheetItemSerializer,
     BalanceGroupSerializer,
     AccountSerializer,
+    TransactionSerializer,
 )
-from accounting.models import BalanceSheetItem, BalanceGroup, Account
+from accounting.models import BalanceSheetItem, BalanceGroup, Account, Transaction
 
 
 class BalanceSheetItemView(viewsets.ModelViewSet):
@@ -17,6 +18,7 @@ class BalanceSheetItemView(viewsets.ModelViewSet):
     - список / одна статья
     - get, post, put, patch, delete
     """
+
     serializer_class = BalanceSheetItemSerializer
     queryset = BalanceSheetItem.objects.all()
 
@@ -27,27 +29,33 @@ class BalanceGroupView(viewsets.ModelViewSet):
     - список / одна группа
     - get, post, put, patch, delete
     """
+
     serializer_class = BalanceGroupSerializer
     queryset = BalanceGroup.objects.all()
 
 
 class AccountView(viewsets.ModelViewSet):
     """
-        Счета:
-        - список / один счёт
-        - get, post, put, patch, delete
+    Счета:
+    - список / один счёт
+    - get, post, put, patch, delete
     """
+
     serializer_class = AccountSerializer
     queryset = Account.objects.all()
 
-# class TransactionView(APIView):
-#     def get(self, request):
-#         return ...
-#
-#     def delete(self, request):
-#         # voided?
-#         return ...
 
+class TransactionView(viewsets.ModelViewSet):
+    """
+    Транзакции, аннулированные транзакции:
+    - список, одна транзакция
+    - get, post | voided post, put, patch, delete
+    """
+
+    serializer_class = TransactionSerializer
+    queryset = Transaction.objects.all()
+
+    # TODO: add voided transaction post method
 
 
 # 🧾 Интерфейс (ниже описаны страницы)

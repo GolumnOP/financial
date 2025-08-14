@@ -6,8 +6,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env(
-)
+env = environ.Env()
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -17,10 +16,7 @@ SECRET_KEY = env("SECRET_KEY")
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
     CORS_ORIGIN_ALLOW_ALL = True
-    CSRF_TRUSTED_ORIGINS = [
-        "http://localhost:8000",
-        "http://127.0.0.1:8000"
-    ]
+    CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -29,9 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "accounting",
-
     "rest_framework",
     "drf_spectacular",
 ]
@@ -115,12 +109,12 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Accounting API',
-    'DESCRIPTION': 'Accounting description',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "Accounting API",
+    "DESCRIPTION": "Accounting description",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
