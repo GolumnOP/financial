@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Accounts</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Balance</th>
+                <th>Group</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+            <tr>
+                <td>{{ account.number }}</td>
+                <td>{{ account.name }}</td>
+                <td>{{ account.type }}</td>
+                <td>{{ account.balance }}</td>
+                <td>{{ account.balance_group.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
