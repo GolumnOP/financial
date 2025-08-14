@@ -1,5 +1,5 @@
-from django.shortcuts import redirect
-from rest_framework import viewsets
+from django.shortcuts import redirect, get_object_or_404
+from rest_framework import viewsets, status
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -48,18 +48,23 @@ class AccountView(viewsets.ModelViewSet):
 
 class TransactionView(viewsets.ModelViewSet):
     """
-    Транзакции, аннулированные транзакции:
+    Транзакции:
     - список, одна транзакция
-    - get, post | voided post, put, patch, delete
+    - get, post, put, patch, delete
     """
 
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all()
 
-    # TODO: add voided transaction post method
+    # TODO: delete transactions apiview, expand modelviewset with extra [post]
 
 
 class AccountsListView(APIView):
+    """
+    Счёты:
+        Список
+    """
+
     renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
     template_name = "accounts_list.html"
     serializer_class = AccountSerializer
@@ -74,6 +79,11 @@ class AccountsListView(APIView):
 
 
 class TransactionCreateView(APIView):
+    """
+    Создание транзакции:
+        Форма выбора
+    """
+
     renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
     template_name = "transaction_creating.html"
     serializer_class = TransactionSerializer
@@ -93,9 +103,36 @@ class TransactionCreateView(APIView):
 
 
 class TransactionHistoryView(APIView):
+    """
+    История транзакций:
+        Список
+    """
+
     renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
     template_name = "transaction_history.html"
 
     def get(self, request):
         transactions = Transaction.objects.all()
         return Response({"transactions": transactions})
+
+
+class TransactionVoidView(APIView):
+    """
+    Аннулирование транзакции
+        post: /transactions/<id>/void/
+    """
+
+    def post(self, request, pk):
+        transaction = get_object_or_404(Transaction, pk=pk)
+        if transaction.is_voided:
+            return Response(
+                {"error": "Transaction already voided"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            transaction.voided()
+            return Response(
+                {"success": f"Transaction #{transaction.pk} voided successfully"}
+            )
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

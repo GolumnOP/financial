@@ -8,6 +8,7 @@ from .views import (
     AccountsListView,
     TransactionCreateView,
     TransactionHistoryView,
+    TransactionVoidView,
 )
 
 router = DefaultRouter()
@@ -28,5 +29,10 @@ urlpatterns = [
         "transactions-history/",
         TransactionHistoryView.as_view(),
         name="transactions-history",
+    ),
+    path(
+        "transactions/<int:pk>/void/",
+        TransactionVoidView.as_view(),
+        name="transaction-void",
     ),
 ]

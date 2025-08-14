@@ -137,7 +137,21 @@ class Transaction(models.Model):
         self.credit_account.save()
         self.debit_account.save()
 
-    # TODO: add voided transaction logic
+    def voided(self):
+        if self.is_voided:
+            raise ValidationError("Trsnaction is already voided")
+        with transaction.atomic():
+            reversal = Transaction(
+                debit_account=self.credit_account,
+                credit_account=self.debit_account,
+                amount=self.amount,
+                description=f"Аннулирование транзакции #{self.pk}",
+                is_voided=False,
+                reversed_transaction=self,
+            )
+            reversal.save()
+            self.is_voided = True
+            self.save()
 
     def __str__(self):
         return f"debit: {self.debit_account} | credit: {self.credit_account}"

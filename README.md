@@ -44,5 +44,8 @@
 
 ![img_1.png](img_1.png)
 
-4) Swagger doc:
+4) Аннулирование транзакции:
+    http://127.0.0.1:8000/api/transactions/<int:pk>/void/
+
+5) Swagger doc:
     http://127.0.0.1:8000/schema/swagger-ui/#/
